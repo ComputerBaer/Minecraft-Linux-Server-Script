@@ -1,0 +1,20 @@
+STR_YES="yes"
+STR_NO="no"
+STR_YES_OR_NO="Enter '${STR_YES}' or '${STR_NO}'"
+
+STR_ROOT="This script does not require root permissions. You should use another user!"
+
+STR_DEPENDENCIES_MISSING="You must install '{0}' to run this script!"
+STR_DEPENDENCIES_INSTALL="Install missing dependencies? ${STR_YES}/${STR_NO}"
+
+STR_UPDATE_DISABLED="Automatic update is disabled!"
+STR_UPDATE_CHECKING="Search for updates ..."
+STR_UPDATE_CHECK_FAILED="Search for updates failed!"
+STR_UPDATE_UPTODATE="All files are up-to-date."
+STR_UPDATE_FOUND="Update found! Installing ..."
+STR_UPDATE_FILE_FAILED="Updating file '{0}' failed."
+STR_UPDATE_MAINFILE="Main script has been updated. Restarting script in {0} seconds ..."
+STR_UPDATE_ERROR_CONTINUE="Error occurred during the update! Try to continue? ${STR_YES}/${STR_NO}"
+STR_UPDATE_SUCCESSFULL="Update completed successfully."
+
+STR_ACTION_UNKNOWN="The action '{0}' can not be found."
