@@ -3,5 +3,5 @@ eac8341fadda4fb8789fec288f81d0f8  .script/helper.sh
 bc5f9e8ecce8f6a33677b0ebf9022c69  .script/languages/de.lang
 b093e1eda5552d7924b45fa02f3ce536  .script/languages/en.lang
 b9493c245589b3fad179ea4b2ae104a4  .script/formatting.sh
-e071ca29bfd40e6c39a9c662d1513da1  .script/config-samples/configuration-sample.ini
-179171372d92361d3f41299e5f6e8598  .script/script.sh
+8b98ef26a8a27ec7e8fdc6350045ffe8  .script/config-samples/configuration-sample.ini
+aec0c0bf96cfa52e90186383d52f17e6  .script/script.sh

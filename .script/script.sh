@@ -8,6 +8,15 @@ function CheckAdditionalDependencies
     if [[ $(IsInstalled screen) == false ]]; then
         dependencies="${dependencies} screen"
     fi
+    if [[ $(IsInstalled java) == false ]]; then
+        if [[ $SYSTEM_PACKAGE_MANAGER == "yum" ]]; then
+            dependencies="${dependencies} java-1.8.0-openjdk.x86_64"
+        elif [[ $SYSTEM_PACKAGE_MANAGER == "zypper" ]]; then
+            dependencies="${dependencies} java-1_8_0-openjdk"
+        else # apt-get
+            dependencies="${dependencies} openjdk-8-jre"
+        fi
+    fi
 
     # Missing Dependencies found?
     if [[ -z $dependencies ]]; then
