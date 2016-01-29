@@ -105,5 +105,31 @@ function GameStatus
 # BackupGame Function
 function BackupGame
 {
-    return # Empty Function
+    if [ ! -d $GAME_DIR ]; then
+        return
+    fi
+
+    local DATE=$(date +%Y-%m-%d_%H-%M-%S)
+    local BACKUP_FILE="${SCRIPT_BACKUP_DIR}${DATE}.tgz"
+
+    if [ ! -d $SCRIPT_BACKUP_DIR ]; then
+        mkdir -p $SCRIPT_BACKUP_DIR
+    fi
+
+    # /
+    # - configuration.ini
+    local files="${SCRIPT_CONFIG}"
+    # /game/
+    # - *
+    files="${files} ${GAME_DIR}*"
+
+    # *
+    # - *.jar
+    local excludes="--exclude=*.jar"
+    # /game/logs/
+    # - *.gz
+    excludes="${excludes} --exclude=${GAME_DIR}logs/*.gz"
+
+    tar -czf $BACKUP_FILE $excludes $files 2> /dev/null &
+    WaitForBackgroundProcess $! $FG_YELLOW
 }
