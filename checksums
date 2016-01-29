@@ -3,7 +3,7 @@ eac8341fadda4fb8789fec288f81d0f8  .script/helper.sh
 a98819b77171b5876b3fbbb73e31e289  .script/languages/de.lang
 a1803a2c42613c900fff605260075fa4  .script/languages/en.lang
 b9493c245589b3fad179ea4b2ae104a4  .script/formatting.sh
-28791a5d8c486222b7684ea2765686e5  .script/game.sh
+34ed11113c1071e15f7c8cd229322b62  .script/game.sh
 e9274a6c6843658c09e0a729d71d2174  .script/settings.ini
 ce5164d4af543475377ca3b013994b44  .script/config-samples/configuration-sample.ini
 c4ba7e4589a2d532a34475c4a377a192  .script/actions/status.sh

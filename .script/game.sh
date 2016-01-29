@@ -53,6 +53,10 @@ function InstallGame
 # StartGame Function
 function StartGame
 {
+    if [ ! -d $GAME_DIR ]; then
+        return
+    fi
+
     # Check Minecraft EULA
     CheckEula
 
