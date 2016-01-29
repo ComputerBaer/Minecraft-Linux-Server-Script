@@ -18,3 +18,13 @@ STR_UPDATE_ERROR_CONTINUE="Error occurred during the update! Try to continue? ${
 STR_UPDATE_SUCCESSFULL="Update completed successfully."
 
 STR_ACTION_UNKNOWN="The action '{0}' can not be found."
+
+STR_GAME_INSTALL_START="Installing the game ..."
+STR_GAME_INSTALL_DONE="Installation of the game completed."
+STR_GAME_INSTALL_FAILED="Installation of the game failed."
+STR_GAME_ALREADY_RUNNING="The game is already running."
+STR_GAME_START="The game is starting ..."
+STR_GAME_STOPPED="The game was stopped."
+STR_GAME_RUNNING="The game is currently running."
+STR_GAME_RUNNING_NOT="The game is not currently running."
+STR_GAME_STATUS="Game State:"

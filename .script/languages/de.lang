@@ -18,3 +18,13 @@ STR_UPDATE_ERROR_CONTINUE="Während der Aktualisierung sind Fehler aufgetreten! 
 STR_UPDATE_SUCCESSFULL="Aktualisierung erfolgreich abgeschlossen."
 
 STR_ACTION_UNKNOWN="Die Aktion '{0}' kann nicht gefunden werden."
+
+STR_GAME_INSTALL_START="Installiere das Spiel ..."
+STR_GAME_INSTALL_DONE="Installation des Spiels abgeschlossen."
+STR_GAME_INSTALL_FAILED="Installation des Spiels fehlgeschlagen."
+STR_GAME_ALREADY_RUNNING="Das Spiel läuft bereits."
+STR_GAME_START="Das Spiel wird gestartet ..."
+STR_GAME_STOPPED="Das Spiel wurde gestoppt."
+STR_GAME_RUNNING="Das Spiel läuft zurzeit."
+STR_GAME_RUNNING_NOT="Das Spiel läuft zurzeit nicht."
+STR_GAME_STATUS="Spiel Status:"
