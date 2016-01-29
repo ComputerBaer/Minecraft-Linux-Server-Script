@@ -33,10 +33,12 @@ function InstallGame
         rm $GAME_EXECUTABLE
     fi
 
-    echo -e "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
+    # Download Serverfile
+    echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
     curl -s $GAME_DL_URL -o $GAME_EXECUTABLE &
     WaitForBackgroundProcess $! $FG_YELLOW
 
+    # Check Serverfile size
     local size=$(stat --format=%s $GAME_EXECUTABLE)
     if [ $size -lt 1000 ]; then
         echo -e "${FG_RED}${STR_GAME_INSTALL_FAILED}${RESET_ALL}"
@@ -44,25 +46,60 @@ function InstallGame
     fi
     echo -e "${FG_GREEN}${STR_GAME_INSTALL_DONE}${RESET_ALL}"
 
+    # Check Minecraft EULA
     CheckEula
 }
 
 # StartGame Function
 function StartGame
 {
-    return # Empty Function
+    # Check Minecraft EULA
+    CheckEula
+
+    # Check Server Status
+    GameStatus
+    if [[ $GAME_IS_RUNNING == true ]]; then
+        echo -e "${FG_RED}${STR_GAME_ALREADY_RUNNING}${RESET_ALL}"
+        ExitScript
+    fi
+    echo -e "${FG_YELLOW}${STR_GAME_START}${RESET_ALL}"
+
+    local EXEC_DIR=$(dirname $GAME_EXECUTABLE)
+    local EXEC_NAME=$(basename $GAME_EXECUTABLE)
+    local params="-Xmx${MaxMemory} -Xms${MinMemory} -jar ${EXEC_NAME} nogui"
+
+    # Start Server
+    cd $EXEC_DIR
+    screen -A -m -d -S $InstanceName java $params
+    cd $SCRIPT_BASE_DIR
 }
 
 # StopGame Function
 function StopGame
 {
-    return # Empty Function
+    GameStatus
+    if [[ $GAME_IS_RUNNING == true ]]; then
+        screen -S $InstanceName -p 0 -X stuff "stop $(echo -ne '\r')"
+    fi
+
+    echo -e "${FG_YELLOW}${STR_GAME_STOPPED}${RESET_ALL}"
 }
 
 # GameStatus Function
 function GameStatus
 {
-    return # Empty Function
+    if screen -list | grep -q $InstanceName; then
+        GAME_IS_RUNNING=true
+    else
+        local EXEC_NAME=$(basename $GAME_EXECUTABLE)
+        local PROCESS_IDS=$(pgrep -f $EXEC_NAME)
+
+        if [[ ! -z $PROCESS_IDS ]]; then
+            GAME_IS_RUNNING=true
+        fi
+
+        GAME_IS_RUNNING=false
+    fi
 }
 
 # BackupGame Function
