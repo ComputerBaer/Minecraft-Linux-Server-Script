@@ -79,7 +79,7 @@ function StopGame
 {
     GameStatus
     if [[ $GAME_IS_RUNNING == true ]]; then
-        screen -S $InstanceName -p 0 -X stuff "stop $(echo -ne '\r')"
+        screen -S $InstanceName -p 0 -X stuff "stop$(echo -ne '\r')"
     fi
 
     echo -e "${FG_YELLOW}${STR_GAME_STOPPED}${RESET_ALL}"
