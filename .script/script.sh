@@ -18,6 +18,13 @@ function CheckAdditionalDependencies
         fi
     fi
 
+    # Check Bukkit/Spigot Dependencies
+    if [[ $MinecraftVersion == "bukkit" ]] || [[ $MinecraftVersion == "spigot" ]]; then
+        if [[ $(IsInstalled git) == false ]]; then
+            dependencies="${dependencies} git"
+        fi
+    fi
+
     # Missing Dependencies found?
     if [[ -z $dependencies ]]; then
         return
