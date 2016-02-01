@@ -91,6 +91,12 @@ function InstallServerBukkit
         java -jar BuildTools.jar
     fi
 
+    # Check Serverfiles
+    if [ ! -f craftbukkit-*.jar ] || [ ! -f spigot-*.jar ]; then
+        echo -e "${FG_RED}${STR_GAME_INSTALL_FAILED}${RESET_ALL}"
+        return
+    fi
+
     # Copy new Serverfile
     if [[ $MinecraftVersion == "bukkit" ]]; then
         cp craftbukkit-*.jar $GAME_EXECUTABLE
@@ -99,6 +105,7 @@ function InstallServerBukkit
     fi
 
     cd $SCRIPT_BASE_DIR
+    echo -e "${FG_GREEN}${STR_GAME_INSTALL_DONE}${RESET_ALL}"
 }
 
 # StartGame Function
