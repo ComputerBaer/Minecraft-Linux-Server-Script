@@ -74,12 +74,18 @@ function InstallServerBukkit
     rm -f craftbukkit-*.jar
     rm -f spigot-*.jar
 
+    echo -e "${FG_CYAN}${STR_GAME_BUILD_CA_INFO}${RESET_ALL}"
     echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
 
     # Download BuildTools
     if [ ! -f $GAME_BUKKIT_TOOLS ]; then
         curl -s $GAME_BUKKIT_DL_URL -o $GAME_BUKKIT_TOOLS &
         WaitForBackgroundProcess $! $FG_YELLOW false
+
+        if [[ $SYSTEM_IS_ROOT == true ]] && [[ $(IsInstalled update-ca-certificates) == true ]]; then
+            update-ca-certificates -f
+            WaitForBackgroundProcess $! $FG_YELLOW false
+        fi
     fi
 
     # Run BuildTools
