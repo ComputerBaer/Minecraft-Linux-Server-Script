@@ -25,14 +25,28 @@ function CheckEula
 # InstallGame Function
 function InstallGame
 {
+    # Create Game Directory
     if [ ! -d $GAME_DIR ]; then
         mkdir -p $GAME_DIR
     fi
 
-    if [ -f $GAME_EXECUTABLE ]; then
-        rm $GAME_EXECUTABLE
+    # Remove old Serverfile(s)
+    rm -f $GAME_EXECUTABLE_DELETE
+
+    # Install Minecraft Server
+    if [[ $MinecraftVersion == "bukkit" ]] || [[ $MinecraftVersion == "spigot" ]]; then
+        InstallServerBukkit
+    else
+        InstallServerVanilla
     fi
 
+    # Check Minecraft EULA
+    CheckEula
+}
+
+# InstallServerVanilla Function
+function InstallServerVanilla
+{
     # Download Serverfile
     echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
     curl -s $GAME_DL_URL -o $GAME_EXECUTABLE &
@@ -45,9 +59,46 @@ function InstallGame
         return
     fi
     echo -e "${FG_GREEN}${STR_GAME_INSTALL_DONE}${RESET_ALL}"
+}
 
-    # Check Minecraft EULA
-    CheckEula
+# InstallServerBukkit Function
+function InstallServerBukkit
+{
+    # Create Build Directory
+    if [ ! -d $GAME_BUKKIT_DIR ]; then
+        mkdir -p $GAME_BUKKIT_DIR
+    fi
+    cd $GAME_BUKKIT_DIR
+
+    # Delete old Serverfiles
+    rm -f craftbukkit-*.jar
+    rm -f spigot-*.jar
+
+    echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
+
+    # Download BuildTools
+    if [ ! -f $GAME_BUKKIT_TOOLS ]; then
+        curl -s $GAME_BUKKIT_DL_URL -o $GAME_BUKKIT_TOOLS &
+        WaitForBackgroundProcess $! $FG_YELLOW false
+    fi
+
+    # Run BuildTools
+    if [[ $GAME_BUKKIT_BACKGROUND == true ]]; then
+        java -jar BuildTools.jar &> /dev/null &
+        WaitForBackgroundProcess $! $FG_YELLOW
+    else
+        echo # Line break
+        java -jar BuildTools.jar
+    fi
+
+    # Copy new Serverfile
+    if [[ $MinecraftVersion == "bukkit" ]]; then
+        cp craftbukkit-*.jar $GAME_EXECUTABLE
+    else # [[ $MinecraftVersion == "spigot" ]]
+        cp spigot-*.jar $GAME_EXECUTABLE
+    fi
+
+    cd $SCRIPT_BASE_DIR
 }
 
 # StartGame Function
