@@ -219,7 +219,8 @@ function BackupGame
     fi
 
     local DATE=$(date +%Y-%m-%d_%H-%M-%S)
-    local BACKUP_FILE="${SCRIPT_BACKUP_DIR}${DATE}.tgz"
+    local FS_BACKUP_FILE="${SCRIPT_BACKUP_DIR}${DATE}_filesystem.tgz"
+    local DB_BACKUP_FILE="${SCRIPT_BACKUP_DIR}${DATE}_database.gz"
 
     if [ ! -d $SCRIPT_BACKUP_DIR ]; then
         mkdir -p $SCRIPT_BACKUP_DIR
@@ -239,6 +240,13 @@ function BackupGame
     # - *.gz
     excludes="${excludes} --exclude=${GAME_DIR}logs/*.gz"
 
-    tar -czf $BACKUP_FILE $excludes $files 2> /dev/null &
-    WaitForBackgroundProcess $! $FG_YELLOW
+    tar -czf $FS_BACKUP_FILE $excludes $files 2> /dev/null &
+    WaitForBackgroundProcess $! $FG_YELLOW false
+
+    # Database Backup
+    if [ ! -z $MySQL_Username ] && [ ! -z $MySQL_Database ] && [[ $(IsInstalled mysqldump) == true ]]; then
+        mysqldump --user=$MySQL_Username --password=$MySQL_Password --host=$MySQL_Hostname --port=$MySQL_Port $MySQL_Database | gzip > $DB_BACKUP_FILE 2> /dev/null &
+        WaitForBackgroundProcess $! $FG_YELLOW false
+    fi
+    echo # Line break
 }
