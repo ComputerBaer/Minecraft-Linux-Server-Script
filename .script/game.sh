@@ -92,11 +92,11 @@ function InstallServerBukkit
 
     # Run BuildTools
     if [[ $BUKKIT_TOOLS_BACKGROUND == true ]]; then
-        java -jar $BUKKIT_TOOLS_EXECUTABLE &> /dev/null &
+        java -jar $BUKKIT_TOOLS_EXECUTABLE --rev $ServerVersion &> /dev/null &
         WaitForBackgroundProcess $! $FG_YELLOW
     else
         echo # Line break
-        java -jar $BUKKIT_TOOLS_EXECUTABLE
+        java -jar $BUKKIT_TOOLS_EXECUTABLE --rev $ServerVersion
     fi
 
     # Check Serverfiles
