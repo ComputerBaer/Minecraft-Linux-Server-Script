@@ -119,7 +119,40 @@ function InstallServerBukkit
 # InstallServerForge Function
 function InstallServerForge
 {
-    return
+    cd $GAME_DIR
+
+    # Remove old Serverfile
+    rm -f $FORGE_SERVER_VANILLA
+
+    # Download Serverfile
+    echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
+    curl -s $FORGE_INSTALLER_DL_URL -o $FORGE_INSTALLER_EXECUTABLE &
+    WaitForBackgroundProcess $! $FG_YELLOW false
+
+    # Check Installerfile size
+    local size=$(stat --format=%s $FORGE_INSTALLER_EXECUTABLE)
+    if [ $size -lt 1000 ]; then
+        echo -e "${FG_RED}${STR_GAME_INSTALL_FAILED}${RESET_ALL}"
+        return
+    fi
+
+    # Run Installer
+    if [[ $FORGE_INSTALLER_BACKGROUND == true ]]; then
+        java -jar $FORGE_INSTALLER_EXECUTABLE --installServer &> /dev/null &
+        WaitForBackgroundProcess $! $FG_YELLOW
+    else
+        echo # Line break
+        java -jar $FORGE_INSTALLER_EXECUTABLE --installServer
+    fi
+
+    # Rename Executable
+    mv $FORGE_SERVER_EXECUTABLE $GAME_EXECUTABLE
+
+    # Remove Installer
+    rm $FORGE_INSTALLER_EXECUTABLE $FORGE_INSTALLER_LOGFILE
+
+    cd $SCRIPT_BASE_DIR
+    echo -e "${FG_GREEN}${STR_GAME_INSTALL_DONE}${RESET_ALL}"
 }
 
 # StartGame Function
