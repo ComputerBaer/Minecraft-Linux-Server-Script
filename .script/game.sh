@@ -34,8 +34,10 @@ function InstallGame
     rm -f $GAME_EXECUTABLE_DELETE
 
     # Install Minecraft Server
-    if [[ $MinecraftVersion == "bukkit" ]] || [[ $MinecraftVersion == "spigot" ]]; then
+    if [[ $ServerType == "bukkit" ]] || [[ $ServerType == "spigot" ]]; then
         InstallServerBukkit
+    elif [[ $ServerType == "forge" ]]; then
+        InstallServerForge
     else
         InstallServerVanilla
     fi
@@ -49,7 +51,7 @@ function InstallServerVanilla
 {
     # Download Serverfile
     echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
-    curl -s $GAME_DL_URL -o $GAME_EXECUTABLE &
+    curl -s $VANILLA_DL_URL -o $GAME_EXECUTABLE &
     WaitForBackgroundProcess $! $FG_YELLOW
 
     # Check Serverfile size
@@ -65,10 +67,10 @@ function InstallServerVanilla
 function InstallServerBukkit
 {
     # Create Build Directory
-    if [ ! -d $GAME_BUKKIT_DIR ]; then
-        mkdir -p $GAME_BUKKIT_DIR
+    if [ ! -d $BUKKIT_TOOLS_DIR ]; then
+        mkdir -p $BUKKIT_TOOLS_DIR
     fi
-    cd $GAME_BUKKIT_DIR
+    cd $BUKKIT_TOOLS_DIR
 
     # Delete old Serverfiles
     rm -f craftbukkit-*.jar
@@ -78,8 +80,8 @@ function InstallServerBukkit
     echo -ne "${FG_YELLOW}${STR_GAME_INSTALL_START}${RESET_ALL}"
 
     # Download BuildTools
-    if [ ! -f $GAME_BUKKIT_TOOLS ]; then
-        curl -s $GAME_BUKKIT_DL_URL -o $GAME_BUKKIT_TOOLS &
+    if [ ! -f $BUKKIT_TOOLS_EXECUTABLE ]; then
+        curl -s $BUKKIT_TOOLS_DL_URL -o $BUKKIT_TOOLS_EXECUTABLE &
         WaitForBackgroundProcess $! $FG_YELLOW false
 
         if [[ $SYSTEM_IS_ROOT == true ]] && [[ $(IsInstalled update-ca-certificates) == true ]]; then
@@ -89,12 +91,12 @@ function InstallServerBukkit
     fi
 
     # Run BuildTools
-    if [[ $GAME_BUKKIT_BACKGROUND == true ]]; then
-        java -jar BuildTools.jar &> /dev/null &
+    if [[ $BUKKIT_TOOLS_BACKGROUND == true ]]; then
+        java -jar $BUKKIT_TOOLS_EXECUTABLE &> /dev/null &
         WaitForBackgroundProcess $! $FG_YELLOW
     else
         echo # Line break
-        java -jar BuildTools.jar
+        java -jar $BUKKIT_TOOLS_EXECUTABLE
     fi
 
     # Check Serverfiles
@@ -104,14 +106,20 @@ function InstallServerBukkit
     fi
 
     # Copy new Serverfile
-    if [[ $MinecraftVersion == "bukkit" ]]; then
+    if [[ $ServerType == "bukkit" ]]; then
         cp craftbukkit-*.jar $GAME_EXECUTABLE
-    else # [[ $MinecraftVersion == "spigot" ]]
+    else # [[ $ServerType == "spigot" ]]
         cp spigot-*.jar $GAME_EXECUTABLE
     fi
 
     cd $SCRIPT_BASE_DIR
     echo -e "${FG_GREEN}${STR_GAME_INSTALL_DONE}${RESET_ALL}"
+}
+
+# InstallServerForge Function
+function InstallServerForge
+{
+    return
 }
 
 # StartGame Function

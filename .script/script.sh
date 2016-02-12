@@ -19,7 +19,7 @@ function CheckAdditionalDependencies
     fi
 
     # Check Bukkit/Spigot Dependencies
-    if [[ $MinecraftVersion == "bukkit" ]] || [[ $MinecraftVersion == "spigot" ]]; then
+    if [[ $ServerType == "bukkit" ]] || [[ $ServerType == "spigot" ]]; then
         if [[ $(IsInstalled git) == false ]]; then
             dependencies="${dependencies} git"
         fi
