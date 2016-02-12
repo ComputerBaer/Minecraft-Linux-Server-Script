@@ -4,13 +4,13 @@ This script provides an easy way for installing and managing a [Minecraft](https
 ## Features
 * Minecraft-Server
   * Start / Stop
-  * Install / Update (Vanilla)
+  * Install / Update (Vanilla, Bukkit/Spigot, Forge)
 * Script
   * Auto update / Integrity checks
   * Dependency checker
   * Add your own actions
 * Configuration
-* Backup
+* Backup (Filesystem, MySQL)
 * Multiple instances
 
 ## Install
